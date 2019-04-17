@@ -112,15 +112,7 @@
         {
             "old": "<HintPath>..\\..\\..\\packages\\Sitecore.FakeDb.1.7.2\\lib\\net45\\Sitecore.FakeDb.dll</HintPath>",
             "new": "<HintPath>..\\..\\..\\packages\\Sitecore.FakeDb.1.7.4\\lib\\net45\\Sitecore.FakeDb.dll</HintPath>"
-        },
-        {
-            "old": "<Reference Include=\"Sitecore.Kernel, Version=11.1.0.0, Culture=neutral, processorArchitecture=MSIL\">",
-            "new": "<Reference Include=\"Sitecore.Kernel\">"
-        },
-        {
-            "old": "<HintPath>..\\..\\..\\packages\\Sitecore.Kernel.NoReferences.9.0.171219\\lib\\NET462\\Sitecore.Kernel.dll</HintPath>",
-            "new": "<HintPath>..\\..\\..\\packages\\Sitecore.Kernel.9.1.0\\lib\\net471\\Sitecore.Kernel.dll</HintPath>"
-        },
+        },        
         {
             "old": "<Reference Include=\"Glass.Mapper, Version=5.0.8.0, Culture=neutral, processorArchitecture=MSIL\">",
             "new": "<Reference Include=\"Glass.Mapper\">"
@@ -204,8 +196,61 @@
             "new": "<package id=\"Newtonsoft.Json\" version=\"11.0.2\" targetFramework=\"net471\" />"
         },
         {
-            "old": "<package id=\"Sitecore.Kernel.NoReferences\" version=\"9.0.171219\" targetFramework=\"net462\" developmentDependency=\"true\" />",
-            "new": "<package id=\"Sitecore.Kernel\" version=\"9.1.0\" targetFramework=\"net471\" developmentDependency=\"true\" />"
+            "type": "generator",
+            "patterns": [{
+                    "old": "<package id=\"{{SitecoreLib}}.NoReferences\" version=\"9.0.171219\" targetFramework=\"net462\" developmentDependency=\"true\" />",
+                    "new": "<package id=\"{{SitecoreLib}}\" version=\"9.1.0\" targetFramework=\"net471\" developmentDependency=\"true\" />"
+                },{
+                    "type": "regular",
+                    "old": "\\<Reference Include=\"{{SitecoreLib}}, Version=([\\d\\.]*), Culture=neutral, processorArchitecture=MSIL\"\\>",
+                    "new": "<Reference Include=\"{{SitecoreLib}}\">"
+                },{
+                    "old": "<HintPath>..\\..\\..\\packages\\{{SitecoreLib}}.NoReferences.9.0.171219\\lib\\NET462\\{{SitecoreLib}}.dll</HintPath>",
+                    "new": "<HintPath>..\\..\\..\\packages\\{{SitecoreLib}}.9.1.0\\lib\\net471\\{{SitecoreLib}}.dll</HintPath>"
+                }
+            ],
+            "replacements": [{
+                    "{{SitecoreLib}}": "Sitecore.Abstractions"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Analytics"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Analytics.Core"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Analytics.DataAccess"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Analytics.Model"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Analytics.Processing"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.ContentSearch.Linq"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.ContentSearch"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.ExperienceEditor"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Kernel"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Logging"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Logging.Client"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Marketing.Core"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Marketing"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Marketing.Taxonomy"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Mvc"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Nexus"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.NVelocity"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Xdb.Configuration"
+                },{
+                    "{{SitecoreLib}}": "Sitecore.Zip"
+                }
+            ]
         },
         {
             "old": "<package id=\"System.AppContext\" version=\"4.1.0\" targetFramework=\"net462\" />",

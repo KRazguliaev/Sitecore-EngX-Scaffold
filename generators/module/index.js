@@ -9,6 +9,7 @@ const msg = require('../../config/messages.json');
 const versions = require('../../config/versions.json');
 const moduleTypes = require('../../config/moduleTypes.json');
 const settings = require('../../config/projectSettings.json');
+const replacements = require('../../config/replacements.json');
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -147,14 +148,6 @@ module.exports = class extends Generator {
       })
       .then(function (answers) {
         self.options = Object.assign({}, self.options, answers);
-
-        // Nuget version update
-        self.options.nuget = [{
-          old: '9.0.171219',
-          new: (self.options.sitecoreUpdate.value ? self.options.sitecoreUpdate.value : self.options.sitecoreUpdate)
-            .nugetVersion,
-        }, ];
-
         self.async();
       });
   }
@@ -188,10 +181,6 @@ module.exports = class extends Generator {
       process: function (content, path) {
         var result = self._replaceTokens(content, self.options);
 
-        // Replace sitecore version
-        self.options.nuget.forEach((id) => {
-          result = result.replace(new RegExp(utils.escapeRegExp(id.old), 'g'), id.new);
-        });
 
         result = result.replace(/(UnicornSerializationDependenciesX)/g, self.options.unicornSerializationDependenciesX);
 
@@ -199,7 +188,18 @@ module.exports = class extends Generator {
         if (path.match(/.*\.yml/gi)) {
           result = utils.generateHashBasedItemIdsInYamlFile(result, path, true);
         }
+        
 
+        utils.preprocessReplacements(replacements[self.options.sitecoreUpdate.name]).forEach((replacement) => {
+          if(replacement.type == "regular") {
+            result = result.replace(new RegExp(replacement.old, 'g'), replacement.new);
+          }
+          else if (replacement.filePartsFilter && path.includes(replacement.filePartsFilter)) {
+            result = result.replace(replacement.old, replacement.new);
+          } else if (!replacement.filePartsFilter) {
+            result = result.replace(new RegExp(utils.escapeRegExp(replacement.old), 'g'), replacement.new);
+          }
+        });
         return result;
       },
       processPath: function (path) {
